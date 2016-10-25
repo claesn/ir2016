@@ -1,0 +1,17 @@
+h1. ir2016
+
+Code für das Seminar "Information Retrieval" (siehe "Seminarplan":http://www.spinfo.phil-fak.uni-koeln.de/spinfo-textengineering.html )
+
+
+h2. package de.uni_koeln.spinfo.textengineering.ir
+
+table(#tableborders){ border: 2px solid #ccc; border-collapse: collapse; border-spacing: 0; width:100%;}.
+| | *Inhalt* | *Ressourcen/Dependencies* | *Literatur* |
+| "basic":https://github.com/claesn/ir2016/tree/master/ir2016/src/de/uni_koeln/spinfo/textengineering/ir/basic | Korpus, Lineare Suche | "Shakespeare":http://www.gutenberg.org/cache/epub/100/pg100.txt | |
+| boole | Term-Dokument-Matrix, Invertierter Index | | "IIR":http://www-nlp.stanford.edu/IR-book/ Kap. 1 |
+| preprocess | Vorverarbeitung | | IIR Kap. 2 |
+| tolerant | Tolerant Retrieval | | IIR Kap. 3 |
+| ranked | Ranked Retrieval: Termgewichtung, Vector Space Model | | IIR Kap. 6 + 7 |
+| evaluation | Evaluation: Precision, Recall, F-Maß | | IIR Kap. 8 |
+| web | Crawler, WebDocument |  | IIR Kap. 19 + 20 |
+| lucene | Lucene: Indexer und Searcher |  | "Lucene in Action":http://www.manning.com/hatcher3/ |
