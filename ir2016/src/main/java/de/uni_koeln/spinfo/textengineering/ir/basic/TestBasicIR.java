@@ -26,5 +26,17 @@ public class TestBasicIR {
 		assertTrue("Korpus sollte mehr als 1 Werk enthalten", works.size() > 1);
 	}
 
-	// TODO Suche
+	@Test
+	public void testSearch() throws Exception {
+		// Testen, ob die Suche funktioniert
+		
+		// Hausaufgabe: Lineare Suche fertig implementieren, so dass der Test funktioniert - ggf. muss der Test angepasst werden!
+		
+		LinearSearch searcher = new LinearSearch(corpus);
+		String query = "Hamlet";
+		List<Integer> result = searcher.search(query);
+		assertTrue("Es sollte genau ein Treffer sein", result.size() == 1);
+		Work work = corpus.getWorks().get(result.get(0));  
+		assertTrue("Titel sollte Hamlet enthalten", work.getTitle().contains(query));
+	}
 }
