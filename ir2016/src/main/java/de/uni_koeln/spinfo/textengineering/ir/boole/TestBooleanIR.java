@@ -3,6 +3,10 @@
  */
 package de.uni_koeln.spinfo.textengineering.ir.boole;
 
+import static org.junit.Assert.assertTrue;
+
+import java.util.Set;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -15,6 +19,8 @@ import de.uni_koeln.spinfo.textengineering.ir.basic.Corpus;
 public class TestBooleanIR {
 
 	private static Corpus corpus;
+	private String query;
+	private TermDokumentMatrix searcher;
 
 	@BeforeClass
 	public static void setUp() throws Exception {
@@ -26,13 +32,35 @@ public class TestBooleanIR {
 
 	@Test
 	public void testMatrix() {
-		// TODO Aufbau der Matrix testen
+		// Aufbau der Matrix testen
+		searcher = new TermDokumentMatrix(corpus);
+		searcher.printMatrix();
 	}
 
 	@Test
 	public void testMatrixSearch() {
-		// TODO Testen, ob Suche in Term-Dokument-Matrix ein Ergebnis liefert:
+		// Testen, ob Suche in Term-Dokument-Matrix ein Ergebnis liefert:
+		
+		System.out.println();
+		System.out.println("Term-Dokument-Matrix:");
+		System.out.println("-------------------");
 
+		searcher = new TermDokumentMatrix(corpus);
+		query = "Brutus Caesar";
+		
+		Set<Integer> result = searcher.search(query);
+		assertTrue("Ergebnis sollte nicht leer sein", result.size() > 0);
+		System.out.println("OR-Ergebnis für " + query + ": " + result);
+
+		Set<Integer> result2 = searcher.booleanSearch(query);
+		assertTrue("Ergebnis sollte kleiner sein als bei normaler Suche", result.size() > result2.size());
+		System.out.println("AND-Ergebnis für " + query + ": " + result2);
+	}
+	
+	@Test
+	public void testInvertedIndex() {
+		// TODO Testen, ob Suche in invertiertem Index ein Ergebnis liefert
+		
 	}
 
 }
