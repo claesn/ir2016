@@ -10,9 +10,10 @@ import java.util.Map;
 import java.util.Set;
 
 import de.uni_koeln.spinfo.textengineering.ir.basic.Corpus;
+import de.uni_koeln.spinfo.textengineering.ir.basic.Searcher;
 import de.uni_koeln.spinfo.textengineering.ir.basic.Work;
 
-public class TermDokumentMatrix{
+public class TermDokumentMatrix implements Searcher{
 
 	private boolean[][] matrix;
 	private List<String> terms;
