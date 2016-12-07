@@ -30,13 +30,15 @@ public class TestPreprocessing {
 		Preprocessor p = new Preprocessor();
 		List<String> tokens = p.tokenize(testString);
 		List<String> terms = p.getTerms(testString);
-
-		//TODO Stemmer testen
-
+		List<String> stems = p.getStems(testString);
+		
 		// Assertions, z.B.
 		assertTrue("Mehr Tokens als Terms erwartet!", tokens.size() >= terms.size());
 		System.out.println("tokens:\t"+tokens);
 		System.out.println("terms:\t"+terms);
+		
+		assertTrue("Mehr Terme als Stems erwartet!", terms.size() >= stems.size());
+		System.out.println("stems:\t"+stems);
 	}
 
 }

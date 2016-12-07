@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.tartarus.snowball.SnowballStemmer;
+import org.tartarus.snowball.ext.englishStemmer;
+
 /*
  * Ein sehr einfacher Preprocessor: splittet und gibt Tokens oder sortierte Types zurück.
  */
@@ -40,6 +43,21 @@ public final class Preprocessor {
 		return new ArrayList<String>(terms);
 	}
 
-	//TODO: Stemming
+	public List<String> getStems(String testString) {
+		//Stemming
+		List<String> stems = new ArrayList<>();
+		List<String> terms = getTerms(testString);
+		SnowballStemmer stemmer = new englishStemmer();//weitere Sprachvarianten siehe API
+		for (String term : terms) {
+			//Benutzung siehe TestApp.java in der Snowball-API
+			stemmer.setCurrent(term);
+			stemmer.stem();
+			String stem = stemmer.getCurrent();
+			stems.add(stem);
+		}
+		SortedSet<String> result = new TreeSet<>(stems);
+		return new ArrayList<>(result);
+	}
+
 
 }
