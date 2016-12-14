@@ -9,6 +9,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.codec.EncoderException;
+import org.apache.commons.codec.language.Soundex;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -42,9 +45,11 @@ public class TestTolerantRetrieval {
 
 		String s1 = "weather";
 		String s2 = "wether";
-		
-		// TODO Distanz berechnen
-		
+
+		// Distanz berechnen
+		int levenshteinDistance = StringUtils.getLevenshteinDistance(s1, s2);
+		System.out.println("Distanz zwischen " + s1 + " und " + s2 + ": " + levenshteinDistance);
+
 		List<String> terms = new Preprocessor().getTerms(corpus.getText());
 		List<String> variants = new EditDistance().getVariants(s1, new HashSet<String>(terms));
 		System.out.println("Varianten für " + s1 + ": " + variants);
@@ -54,7 +59,7 @@ public class TestTolerantRetrieval {
 	 * Phonetischer Stringvergleich mit dem Soundex-Algorithmus (Apache Commons Codec).
 	 */
 	@Test
-	public void testSoundex(){
+	public void testSoundex() throws EncoderException {
 
 		System.out.println("Soundex");
 		System.out.println("------------");
@@ -62,15 +67,18 @@ public class TestTolerantRetrieval {
 		String s1 = "weather";
 		String s2 = "wether";
 
-		// TODO Distanz berechnen
-		
+		// Distanz berechnen
+		Soundex soundex = new Soundex();
+		int difference = soundex.difference(s1, s2);
+		System.out.println("Soundex difference zwischen " + s1 + " und " + s2 + ": " + difference);
+
 		List<String> terms = new Preprocessor().getTerms(corpus.getText());
 		List<String> variants = new PhoneticCorrection().getVariants(s1, new HashSet<String>(terms));
 		System.out.println("Varianten für: " + s1 + ": " + variants);
 	}
 
 	/*
-	 *  Testen, ob auch inkorrekte queries ein Ergebnis liefern:
+	 * Testen, ob auch inkorrekte queries ein Ergebnis liefern:
 	 */
 	@Test
 	public void testTolerantRetrieval() {
@@ -82,7 +90,6 @@ public class TestTolerantRetrieval {
 		TolerantRetrieval ir = new TolerantRetrieval(corpus);
 		Set<Integer> result = null;
 
-		query = "caezar";
 		query = "bruttus";
 
 		result = ir.searchTolerant(query, new EditDistance());
@@ -94,8 +101,18 @@ public class TestTolerantRetrieval {
 		assertTrue("Mindestens ein Treffer erwartet", result.size() >= 1);
 		System.out.println("Ergebnis für " + query + ": " + result);
 		System.out.println("-------------------");
-}
 
+		query = "caezar";
 
-	
+		result = ir.searchTolerant(query, new EditDistance());
+		assertTrue("Mindestens ein Treffer erwartet", result.size() >= 1);
+		System.out.println("Ergebnis für " + query + ": " + result);
+		System.out.println("-------------------");
+
+		result = ir.searchTolerant(query, new PhoneticCorrection());
+		assertTrue("Mindestens ein Treffer erwartet", result.size() >= 1);
+		System.out.println("Ergebnis für " + query + ": " + result);
+
+	}
+
 }
