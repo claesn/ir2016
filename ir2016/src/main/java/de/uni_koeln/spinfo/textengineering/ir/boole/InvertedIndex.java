@@ -15,7 +15,7 @@ import de.uni_koeln.spinfo.textengineering.ir.basic.Work;
 
 public class InvertedIndex implements Searcher {
 
-	private Map<String, SortedSet<Integer>> index;//Unsere Zugriffsstruktur
+	protected Map<String, SortedSet<Integer>> index;//Unsere Zugriffsstruktur
 
 	public InvertedIndex(Corpus corpus) {
 		Long start = System.currentTimeMillis();
