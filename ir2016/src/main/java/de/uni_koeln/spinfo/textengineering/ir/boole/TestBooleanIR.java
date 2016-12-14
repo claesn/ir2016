@@ -6,7 +6,6 @@ package de.uni_koeln.spinfo.textengineering.ir.boole;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 
