@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.codec.EncoderException;
+import org.apache.commons.codec.language.ColognePhonetic;
+import org.apache.commons.codec.language.Metaphone;
 import org.apache.commons.codec.language.Soundex;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.BeforeClass;
@@ -112,7 +114,32 @@ public class TestTolerantRetrieval {
 		result = ir.searchTolerant(query, new PhoneticCorrection());
 		assertTrue("Mindestens ein Treffer erwartet", result.size() >= 1);
 		System.out.println("Ergebnis für " + query + ": " + result);
-
 	}
 
+	/*
+	 * Alternativen zu Soundex. Für Metaphone/ColognePhonetic gibt es keine Funktion "difference", diese müsste selbst
+	 * programmiert werden.
+	 */
+	@Test
+	public void testPhoneticCorrection() {
+
+		System.out.println("------------");
+
+		String s1 = "spears";
+		String s2 = "superzicke";
+
+		Soundex s = new Soundex();
+		System.out.println(String.format("soundex of '%s': '%s'", s1, s.soundex(s1)));
+		System.out.println(String.format("soundex of '%s': '%s'", s2, s.soundex(s2)));
+
+		// alternatives Codec zu Soundex:
+		Metaphone m = new Metaphone();
+		System.out.println(String.format("metaphone of '%s': '%s'", s1, m.metaphone(s1)));
+		System.out.println(String.format("metaphone of '%s': '%s'", s2, m.metaphone(s2)));
+
+		// "Kölner Phonetik" speziell für das Deutsche:
+		ColognePhonetic cp = new ColognePhonetic();
+		System.out.println(String.format("colognePhonetic of '%s': '%s'", s1, cp.colognePhonetic(s1)));
+		System.out.println(String.format("colognePhonetic of '%s': '%s'", s2, cp.colognePhonetic(s2)));
+	}
 }
