@@ -11,7 +11,7 @@ table(#tableborders){ border: 2px solid #ccc; border-collapse: collapse; border-
 | "boole":https://github.com/claesn/ir2016/tree/master/ir2016/src/main/java/de/uni_koeln/spinfo/textengineering/ir/boole | Term-Dokument-Matrix, Invertierter Index | | "IIR":http://www-nlp.stanford.edu/IR-book/ Kap. 1 |
 | "preprocess":https://github.com/claesn/ir2016/tree/master/ir2016/src/main/java/de/uni_koeln/spinfo/textengineering/ir/preprocess | Vorverarbeitung | "snowball stemmer":http://snowball.tartarus.org/ | IIR Kap. 2 |
 | "tolerant":https://github.com/claesn/ir2016/tree/master/ir2016/src/main/java/de/uni_koeln/spinfo/textengineering/ir/tolerant | Tolerant Retrieval | "Apache Commons Lang":https://commons.apache.org/proper/commons-lang/, "Apache Commons Codec":https://commons.apache.org/proper/commons-codec/ | IIR Kap. 3 |
-| ranked | Ranked Retrieval: Termgewichtung, Vector Space Model | | IIR Kap. 6 + 7 |
+| "ranked":https://github.com/claesn/ir2016/tree/master/ir2016/src/main/java/de/uni_koeln/spinfo/textengineering/ir/ranked | Ranked Retrieval: Termgewichtung, Vector Space Model | | IIR Kap. 6 + 7 |
 | evaluation | Evaluation: Precision, Recall, F-Maß | | IIR Kap. 8 |
 | web | Crawler, WebDocument |  | IIR Kap. 19 + 20 |
 | lucene | Lucene: Indexer und Searcher |  | "Lucene in Action":http://www.manning.com/hatcher3/ |
