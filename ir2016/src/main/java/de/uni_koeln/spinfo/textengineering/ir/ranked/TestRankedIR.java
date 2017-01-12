@@ -17,12 +17,18 @@ public class TestRankedIR {
 	private String query;
 	private RankedRetrieval index;
 	private Set<Integer> result;
+	// Neu: Wir benutzen einen Ranker, um das Ergebnis zu bewerten
+	private Ranker ranker;
 
 	@Before
 	public void setUp() throws Exception {
 		corpus = new Corpus("pg100.txt", "1[56][0-9]{2}\n");
 		index = new InvIndex(corpus);
 		query = "brutus caesar";
+		/*
+		 * Das Ranking erfolgt relativ zu einer Anfrage, deshalb initialisieren wir den Ranker mit der query:
+		 */
+		ranker = new Ranker(query, index);
 	}
 
 	@Test
@@ -38,9 +44,9 @@ public class TestRankedIR {
 		result = index.search(query);
 		System.out.println(result.size() + " gerankte Treffer für " + query);
 		assertTrue("Ergebnis sollte nicht leer sein!", result.size() > 0);
-		
-		// TODO Ergebnis ranken ...
-
+		// Ergebnis ranken ...
+		List<Integer> rankedResult = ranker.rank(result);
+		print(rankedResult);
 	}
 
 	/*

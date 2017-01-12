@@ -81,4 +81,20 @@ public class InvIndex implements RankedRetrieval {
 		return corpus.getWorks();
 	}
 
+	/*
+	 *  Alle Terme im Korpus.
+	 */
+	@Override
+	public List<String> getTerms() {
+		return new ArrayList<String>(index.keySet());
+	}
+
+	/*
+	 *  Die Dokumentenfrequenz zu einem Term:
+	 */
+	@Override
+	public double getDf(String t) {
+		return index.get(t).size();
+	}
+
 }

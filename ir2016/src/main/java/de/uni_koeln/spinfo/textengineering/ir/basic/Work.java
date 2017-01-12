@@ -7,6 +7,8 @@ import java.util.Map;
 
 import de.uni_koeln.spinfo.textengineering.ir.preprocess.Preprocessor;
 import de.uni_koeln.spinfo.textengineering.ir.ranked.RankedRetrieval;
+import de.uni_koeln.spinfo.textengineering.ir.ranked.TermWeighting;
+import de.uni_koeln.spinfo.textengineering.ir.ranked.VectorComparison;
 
 public class Work {
 
@@ -69,7 +71,8 @@ public class Work {
 			 */
 			if (tf == null) {
 				tf = 1;
-			} else {// sonst zählen wir einfach bei jedem Vorkommen hoch
+			} else {
+				// sonst zählen wir einfach bei jedem Vorkommen hoch
 				tf = tf + 1;
 			}
 			termMap.put(token, tf);
@@ -96,16 +99,41 @@ public class Work {
 	}
 
 	/**
+	 * Die Cosinus-Ähnlichkeit dieses Werks zu einer query. Die eigentliche Ähnlichkeitsberechnung delegieren wir an
+	 * eine Vergleichstrategie, implementiert in der Klasse VectorComparison.
+	 * 
 	 * @param query
 	 * @param index
 	 * 
-	 * @return Die Ähnlichkeit dieses Dokuments zu einer query.
+	 * @return Die Cosinus-Ähnlichkeit dieses Dokuments zu einer query.
 	 */
 	public Double similarity(Work query, RankedRetrieval index) {
 
-		// TODO Hier muss noch die Ähnlichkeit errechnet werden ...
-		
-		return null;
+		// Ähnlichkeit zwischen Query und Dokument (Werk) erhalten wir über den Vergleich der Vektoren
+		List<Double> docVector = this.computeVector(index);
+		List<Double> queryVector = query.computeVector(index);
+
+		// optionale Ausgabe:
+		double sim = VectorComparison.compare(docVector, queryVector);
+		System.out.println("Similarity von " + this + " zu " + query + ": " + sim);
+		return sim;
+	}
+
+	private List<Double> computeVector(RankedRetrieval index) {
+
+		List<String> terms = index.getTerms();
+		/*
+		 * Ein Vektor für dieses Werk ist eine Liste (Länge = Anzahl Terme insgesamt)
+		 */
+		List<Double> vector = new ArrayList<Double>(terms.size());
+		Double tfIdf;
+		/* ...und dieser Vektor enthält für jeden Term im Vokabular... */
+		for (String t : terms) {
+			/* ...den tfIdf-Wert des Terms (Berechnung in einer eigenen Klasse): */
+			tfIdf = TermWeighting.tfIdf(t, this, index);
+			vector.add(tfIdf);
+		}
+		return vector;
 	}
 
 }
