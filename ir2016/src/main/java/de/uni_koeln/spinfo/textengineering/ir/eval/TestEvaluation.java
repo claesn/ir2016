@@ -30,6 +30,11 @@ public class TestEvaluation {
 	private static List<Integer> goldstandard;
 	private static Evaluation evaluation;
 
+	// für Ranking: k und eine "range"
+	int k = 10;
+	private int K_START = 5;
+	private int K_END = 20;
+
 	@BeforeClass
 	public static void setup() {
 		/*
@@ -68,16 +73,29 @@ public class TestEvaluation {
 	@Test
 	public void evalUnranked() {
 		/* Wir evaluieren zunächst das Ergebnis gegen den Goldstandard. */
+		EvaluationResult evaluate = evaluation.evaluate(unranked);
+		assertTrue("F-Maß darf nicht 0 sein!", evaluate.f > 0);
+		System.out.println("Unranked, alle: " + evaluate);
 	}
 
 	@Test
 	public void evalRanked() {
 		/* Nun das gewichtete Ergebnis gegen den Goldstandard. */
+		EvaluationResult evaluate = evaluation.evaluate(ranked);
+		assertTrue("F-Maß darf nicht 0 sein!", evaluate.f > 0);
+		System.out.println(evaluate);
 	}
 
 	@Test
 	public void evalRankedTop() {
 		/* Nun nur die k besten Ergebnisse ... */
+		EvaluationResult evalRanked = evaluation.evaluate(ranked.subList(0, k));
+		EvaluationResult evalUnranked = evaluation.evaluate(unranked.subList(0, k));
+
+		assertTrue("Evaluation der besten k sollte das Ergebnis verbessern.", evalRanked.f > evalUnranked.f);
+
+		System.out.println("Unranked, top: " + evalUnranked);
+		System.out.println("Ranked, top: " + evalRanked);
 	}
 
 	@Test
@@ -88,11 +106,20 @@ public class TestEvaluation {
 		 * 5 bis 15 und gib die Ergebnisse aus' (hier einfach in der Konsole, doch stattdessen könnte man das ganze auch
 		 * tabellarisch in eine Datei schreiben und so verschiedene Aufbauten in verschiedenen Files speichern etc.).
 		 */
+		for (int i = K_START; i < K_END; i++) {
+			EvaluationResult evalRanked = evaluation.evaluate(ranked.subList(0, i));
+			System.out.println(evalRanked + " k=" + i);
+		}
 	}
 
 	@Test
 	public void evalUnrankedMultiK() {
 		System.out.println("Multiresult, unranked:");
+		/* Für jedes k von kStart bis kEnd evaluieren und das Ergebnis ausgeben: */
+		for (int i = K_START; i < K_END; i++) {
+			EvaluationResult evalRanked = evaluation.evaluate(unranked.subList(0, i));
+			System.out.println("unranked, top: " + evalRanked + " k=" + i);
+		}
 	}
 
 	/*

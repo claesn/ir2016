@@ -115,7 +115,7 @@ public class Work {
 
 		// optionale Ausgabe:
 		double sim = VectorComparison.compare(docVector, queryVector);
-		System.out.println("Similarity von " + this + " zu " + query + ": " + sim);
+//		System.out.println("Similarity von " + this + " zu " + query + ": " + sim);
 		return sim;
 	}
 
