@@ -8,6 +8,7 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field.Store;
+import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -37,6 +38,12 @@ public class Indexer {
 	 */
 	public void index(Corpus corpus) throws IOException {
 
+		System.out.print("Indexing corpus ");
+		/*
+		 * Wir erstellen hier jedesmal einen frischen Index. Alternativ würde man zunächst schauen, ob ein Index
+		 * existiert und dann vor der Indexierung eines Dokuments schauen, ob es bereits enthalten ist.
+		 */
+		writer.deleteAll();
 		/*
 		 * Schritt A.1 (acquire content) ist hier im Grunde bereits abgehakt. Dass wir hier einfach unser Corpus
 		 * übergeben ist dabei ein Spezialfall. Der allgemeinere Fall: Lesen von Textdateien aus einem Verzeichnis.
@@ -63,13 +70,15 @@ public class Indexer {
 	 * (textuelle Daten) abgebildet.
 	 */
 	private Document buildDocument(Work work) {
-		
+
 		String title = work.getTitle();
 		String text = work.getText();
 
 		Document document = new Document();
 		document.add(new TextField("title", title, Store.YES));
 		document.add(new TextField("contents", text, Store.YES));
+		// StringField wird nicht tokenisiert, gut z.B. für Sortierung
+		document.add(new StringField("title.sort", title, Store.YES));
 
 		return document;
 	}
@@ -79,5 +88,12 @@ public class Indexer {
 	 */
 	public int getNumberOfDocs() {
 		return writer.maxDoc();
+	}
+
+	/*
+	 * Beim Umgang mit Ressourcen ist es immer gut, diese explizit freizugeben.
+	 */
+	public void close() throws IOException {
+		writer.close();
 	}
 }

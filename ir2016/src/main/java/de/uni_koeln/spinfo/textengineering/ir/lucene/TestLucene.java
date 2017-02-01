@@ -1,9 +1,11 @@
 package de.uni_koeln.spinfo.textengineering.ir.lucene;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
+import org.apache.lucene.queryparser.classic.ParseException;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -12,13 +14,13 @@ import de.uni_koeln.spinfo.textengineering.ir.basic.Corpus;
 
 public class TestLucene {
 
-	private Corpus corpus;
-	private String query;
+	private static Corpus corpus;
+	private static String query;
 	// Das Verzeichnis, in das Lucene den Index speichert und von wo aus er abgefragt werden kann:
-	private String luceneDir;
+	private static String luceneDir;
 
 	@BeforeClass
-	public void setUp() throws Exception {
+	public static void setUp() throws Exception {
 		// A.1 Acquire content
 		corpus = new Corpus("pg100.txt", "1[56][0-9]{2}\n");
 		/* Speicherort für den Lucene-Index: */
@@ -44,15 +46,23 @@ public class TestLucene {
 		indexer.index(corpus);
 		/* Wenn alles ok ist, sollten nun genau die 38 Docs im Index sein: */
 		assertEquals("Index sollte der Korpusgröße entsprechen", corpus.getWorks().size(), indexer.getNumberOfDocs());
-	}
-	
-	@Test
-	public void testSearcher(){
-		/*
-		 * TODO Suche im Index
-		 */
-		
+		indexer.close();
 	}
 
-	
+	@Test
+	public void testSearcher() throws IOException, ParseException {
+		/*
+		 * Der Searcher ist das Gegenstück zum Indexer. Die Searcher-Klasse enthält einen IndexSearcher, der auf den
+		 * oben erstellten (bzw. einen beliebigen) Index im entsprechenden Verzeichnis angesetzt wird:
+		 */
+		Searcher searcher = new Searcher(luceneDir);
+		/* Wir prüfen zunächst, ob mit dem Index alles in Ordnung ist ... */
+		assertEquals("Index sollte genau 38 Dokumente enthalten", 38, searcher.indexSize());
+		/* ... und schicken dann die Suche ab, wobei wir die maximale Trefferzahl mit angeben: */
+		searcher.search(query, 20);
+		/* Wenn alles ok ist, sollten nun genau die 38 Docs im Index sein: */
+		assertTrue("Suchergebnis sollte nicht leer sein", searcher.totalHits() > 0);
+		searcher.close();
+	}
+
 }
