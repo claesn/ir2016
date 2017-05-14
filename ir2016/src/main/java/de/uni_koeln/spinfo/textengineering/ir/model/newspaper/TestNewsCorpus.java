@@ -1,4 +1,4 @@
-package de.uni_koeln.spinfo.textengineering.ir.news_corpus;
+package de.uni_koeln.spinfo.textengineering.ir.model.newspaper;
 
 import static org.junit.Assert.assertTrue;
 
@@ -10,7 +10,6 @@ import org.junit.Test;
 
 import de.uni_koeln.spinfo.textengineering.ir.lucene.Indexer;
 import de.uni_koeln.spinfo.textengineering.ir.model.IRDocument;
-import de.uni_koeln.spinfo.textengineering.ir.model.newspaper.NewsCorpus;
 
 public class TestNewsCorpus {
 
