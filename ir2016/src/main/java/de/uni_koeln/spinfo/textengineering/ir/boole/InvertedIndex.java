@@ -15,7 +15,7 @@ import de.uni_koeln.spinfo.textengineering.ir.model.IRDocument;
 
 public class InvertedIndex implements Searcher {
 
-	protected Map<String, SortedSet<Integer>> index; //Unsere Zugriffsstruktur
+	protected Map<String, SortedSet<Integer>> index; // Unsere Zugriffsstruktur
 
 	public InvertedIndex(Corpus corpus) {
 		Long start = System.currentTimeMillis();
@@ -31,18 +31,20 @@ public class InvertedIndex implements Searcher {
 			IRDocument document = documents.get(i);
 			List<String> terms = Arrays.asList(document.getContent().split("\\s+"));
 			for (String term : terms) {
-				// Wir holen uns jeweils die postings-Liste des Terms aus dem Index:
+				// Wir holen uns jeweils die postings-Liste des Terms aus dem
+				// Index:
 				SortedSet<Integer> postings = invIndex.get(term);
 				/*
-				 * beim ersten Vorkommen des Terms ist diese noch leer (null), also legen wir uns einfach eine neue an:
+				 * beim ersten Vorkommen des Terms ist diese noch leer (null),
+				 * also legen wir uns einfach eine neue an:
 				 */
 				if (postings == null) {
 					postings = new TreeSet<>();
 					invIndex.put(term, postings);
 				}
 				/*
-				 * Der Term wird indexiert, indem die Id des aktuellen Werks (= der aktuelle Zählerwert) der
-				 * postings-list hinzugefügt wird:
+				 * Der Term wird indexiert, indem die Id des aktuellen Werks (=
+				 * der aktuelle Zählerwert) der postings-list hinzugefügt wird:
 				 */
 				postings.add(i);
 			}

@@ -1,4 +1,4 @@
-package de.uni_koeln.spinfo.textengineering.ir.testsuite;
+package de.uni_koeln.spinfo.textengineering.ir;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

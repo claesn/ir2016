@@ -27,11 +27,7 @@ public final class IRUtils {
 		List<String> tokens = new Preprocessor().tokenize(content);
 		for (String token : tokens) {
 			Integer tf = termMap.get(token);
-			if (tf == null) {
-				tf = 1;
-			} else {
-				tf = tf + 1;
-			}
+			tf = tf == null ? 1 : ++tf; 
 			termMap.put(token, tf);
 		}
 		return termMap;

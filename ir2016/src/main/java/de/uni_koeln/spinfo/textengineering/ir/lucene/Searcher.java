@@ -36,9 +36,9 @@ public class Searcher {
 		/*
 		 * B.2: build query - Analog zur Indexierung können wir hier einen Preprocessor nutzen (QueryParser):
 		 */
-		Query query;
+		
 		QueryParser parser = new QueryParser("contents", new StandardAnalyzer());
-		query = parser.parse(searchPhrase);
+		Query query = parser.parse(searchPhrase);
 		/*
 		 * ... oder uns eine Query selbst bauen (Lucene stellt eine Reihe von versch. Query-Typen bereit):
 		 */

@@ -33,8 +33,8 @@ public interface IRDocument {
 		List<String> terms = index.getTerms();
 		List<Double> vector = new ArrayList<Double>(terms.size());
 		Double tfIdf;
-		for (String t : terms) {
-			tfIdf = TermWeighting.tfIdf(t, this, index);
+		for (String term : terms) {
+			tfIdf = TermWeighting.tfIdf(term, this, index);
 			vector.add(tfIdf);
 		}
 		return vector;

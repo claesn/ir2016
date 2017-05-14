@@ -75,11 +75,11 @@ public class Indexer {
 		// TODO: Use reflexion api to indicate fields
 		
 		String title = irDoc.getTitle();
-		String text = irDoc.getContent();
+		String content = irDoc.getContent();
 
 		Document document = new Document();
 		document.add(new TextField("title", title, Store.YES));
-		document.add(new TextField("contents", text, Store.YES));
+		document.add(new TextField("contents", content, Store.YES));
 		// StringField wird nicht tokenisiert, gut z.B. für Sortierung
 		document.add(new StringField("title.sort", title, Store.YES));
 
