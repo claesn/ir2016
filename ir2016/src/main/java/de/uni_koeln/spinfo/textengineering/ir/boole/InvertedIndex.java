@@ -9,13 +9,13 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import de.uni_koeln.spinfo.textengineering.ir.basic.Corpus;
 import de.uni_koeln.spinfo.textengineering.ir.basic.Searcher;
-import de.uni_koeln.spinfo.textengineering.ir.basic.Work;
+import de.uni_koeln.spinfo.textengineering.ir.model.Corpus;
+import de.uni_koeln.spinfo.textengineering.ir.model.IRDocument;
 
 public class InvertedIndex implements Searcher {
 
-	protected Map<String, SortedSet<Integer>> index;//Unsere Zugriffsstruktur
+	protected Map<String, SortedSet<Integer>> index; //Unsere Zugriffsstruktur
 
 	public InvertedIndex(Corpus corpus) {
 		Long start = System.currentTimeMillis();
@@ -26,10 +26,10 @@ public class InvertedIndex implements Searcher {
 	private Map<String, SortedSet<Integer>> index(Corpus corpus) {
 		HashMap<String, SortedSet<Integer>> invIndex = new HashMap<String, SortedSet<Integer>>();
 		// Index aufbauen
-		List<Work> works = corpus.getWorks();
-		for (int i = 0; i < works.size(); i++) {
-			Work work = works.get(i);
-			List<String> terms = Arrays.asList(work.getText().split("\\s+"));
+		List<IRDocument> documents = corpus.getDocuments();
+		for (int i = 0; i < documents.size(); i++) {
+			IRDocument document = documents.get(i);
+			List<String> terms = Arrays.asList(document.getContent().split("\\s+"));
 			for (String term : terms) {
 				// Wir holen uns jeweils die postings-Liste des Terms aus dem Index:
 				SortedSet<Integer> postings = invIndex.get(term);

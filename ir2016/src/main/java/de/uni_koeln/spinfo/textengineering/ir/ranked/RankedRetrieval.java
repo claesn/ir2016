@@ -3,7 +3,7 @@ package de.uni_koeln.spinfo.textengineering.ir.ranked;
 import java.util.List;
 import java.util.Set;
 
-import de.uni_koeln.spinfo.textengineering.ir.basic.Work;
+import de.uni_koeln.spinfo.textengineering.ir.model.IRDocument;
 
 /*
  * Information-Retrieval in der einfachsten Form: unabhängig von der
@@ -28,7 +28,7 @@ public interface RankedRetrieval {
 	/*
 	 * Neu: Ergänzungen, damit weiterhin 'generisch' mit einem Interface gearbeitet werden kann:
 	 */
-	List<Work> getWorks();
+	List<IRDocument> getDocuments();
 
 	List<String> getTerms();
 

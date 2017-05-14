@@ -3,7 +3,7 @@ package de.uni_koeln.spinfo.textengineering.ir.eval;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.uni_koeln.spinfo.textengineering.ir.basic.Work;
+import de.uni_koeln.spinfo.textengineering.ir.model.IRDocument;
 import de.uni_koeln.spinfo.textengineering.ir.preprocess.Preprocessor;
 import de.uni_koeln.spinfo.textengineering.ir.ranked.RankedRetrieval;
 
@@ -19,7 +19,7 @@ public class GoldStandard {
 		List<String> q = p.tokenize(query);
 
 		int docId = 0;
-		for (Work d : index.getWorks()) {
+		for (IRDocument d : index.getDocuments()) {
 			/*
 			 * Für unsere Experimente mit P, R und F betrachten wir ein Dokument immer dann als relevant, wenn ein Term
 			 * der Anfrage im Titel des Dokuments enthalten ist:

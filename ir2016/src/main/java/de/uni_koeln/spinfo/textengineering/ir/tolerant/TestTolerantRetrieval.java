@@ -17,7 +17,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.uni_koeln.spinfo.textengineering.ir.basic.Corpus;
+import de.uni_koeln.spinfo.textengineering.ir.model.Corpus;
+import de.uni_koeln.spinfo.textengineering.ir.model.shakespeare.ShakespeareCorpus;
 import de.uni_koeln.spinfo.textengineering.ir.preprocess.Preprocessor;
 
 /**
@@ -33,7 +34,7 @@ public class TestTolerantRetrieval {
 	public static void setUp() throws Exception {
 		String filename = "pg100.txt";
 		String delimiter = "1[56][0-9]{2}\n";
-		corpus = new Corpus(filename, delimiter);
+		corpus = new ShakespeareCorpus(filename, delimiter);
 	}
 
 	/*

@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import de.uni_koeln.spinfo.textengineering.ir.basic.Corpus;
 import de.uni_koeln.spinfo.textengineering.ir.basic.Searcher;
-import de.uni_koeln.spinfo.textengineering.ir.basic.Work;
+import de.uni_koeln.spinfo.textengineering.ir.model.Corpus;
+import de.uni_koeln.spinfo.textengineering.ir.model.IRDocument;
 
 public class TermDokumentMatrix implements Searcher{
 
@@ -24,13 +24,13 @@ public class TermDokumentMatrix implements Searcher{
 		long start = System.currentTimeMillis();
 		System.out.println("Erstelle Matrix ...");
 
-		List<Work> works = corpus.getWorks();
-		terms = getTerms(works);
+		List<IRDocument> documents = corpus.getDocuments();
+		terms = getTerms(documents);
 		positions = getPositions(terms);// 'Zeilennummern' der Terme
-		matrix = new boolean[terms.size()][works.size()];
+		matrix = new boolean[terms.size()][documents.size()];
 
-		for (int spalte = 0; spalte < works.size(); spalte++) {
-			String[] tokens = works.get(spalte).getText().split("\\s+");
+		for (int spalte = 0; spalte < documents.size(); spalte++) {
+			String[] tokens = documents.get(spalte).getContent().split("\\s+");
 			for (int j = 0; j < tokens.length; j++) {
 				String t = tokens[j];// das aktuelle Token
 				int zeile = positions.get(t);// Zeilennummer des Tokens
@@ -38,7 +38,7 @@ public class TermDokumentMatrix implements Searcher{
 			}
 		}
 		System.out.println("Matrix erstellt, Dauer: " + (System.currentTimeMillis() - start) + " ms.");
-		System.out.println("Größe der Matrix: " + terms.size() + " X " + works.size());
+		System.out.println("Größe der Matrix: " + terms.size() + " X " + documents.size());
 	}
 
 	/*
@@ -56,10 +56,10 @@ public class TermDokumentMatrix implements Searcher{
 	 * Ermittelt die Terme aller Werke. Das Set wird abschließend in eine Liste umgewandelt, da der Listen-Zugriff über
 	 * get(index) sowohl das Mappen der Positionen als auch das Ausgeben der Matrix erleichtert.
 	 */
-	private List<String> getTerms(List<Work> works) {
+	private List<String> getTerms(List<IRDocument> documents) {
 		Set<String> allTerms = new HashSet<String>();
-		for (Work work : works) {
-			List<String> termsInCurrentWork = Arrays.asList(work.getText().split("\\s+"));
+		for (IRDocument document : documents) {
+			List<String> termsInCurrentWork = Arrays.asList(document.getContent().split("\\s+"));
 			allTerms.addAll(termsInCurrentWork);
 		}
 		return new ArrayList<String>(allTerms);

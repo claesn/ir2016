@@ -8,9 +8,9 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import de.uni_koeln.spinfo.textengineering.ir.basic.Corpus;
 import de.uni_koeln.spinfo.textengineering.ir.basic.Searcher;
-import de.uni_koeln.spinfo.textengineering.ir.basic.Work;
+import de.uni_koeln.spinfo.textengineering.ir.model.Corpus;
+import de.uni_koeln.spinfo.textengineering.ir.model.IRDocument;
 import de.uni_koeln.spinfo.textengineering.ir.preprocess.Preprocessor;
 
 public class PositionalIndex implements Searcher {
@@ -32,10 +32,10 @@ public class PositionalIndex implements Searcher {
 		Map<String, SortedMap<Integer, List<Integer>>> posIndex = new HashMap<>();
 
 		// Index aufbauen
-		List<Work> works = corpus.getWorks();
-		for (int i = 0; i < works.size(); i++) {
-			Work work = works.get(i);
-			List<String> terms = p.tokenize(work.getText());
+		List<IRDocument> documents = corpus.getDocuments();
+		for (int i = 0; i < documents.size(); i++) {
+			IRDocument document = documents.get(i);
+			List<String> terms = p.tokenize(document.getContent());
 			for (int j = 0; j < terms.size(); j++) {
 				String term = terms.get(j);
 				// Wir holen uns jeweils die postings-Map des Terms aus dem Index:
@@ -150,12 +150,12 @@ public class PositionalIndex implements Searcher {
 
 		for (Integer docId : result.keySet()) {
 			// Werk als Tokenlist für Rekonstruktion der Fundstelle:
-			Work work = corpus.getWorks().get(docId);
-			List<String> tokens = p.tokenize(work.getText());
+			IRDocument document = corpus.getDocuments().get(docId);
+			List<String> tokens = p.tokenize(document.getContent());
 			// Die einzelnen Fundstellen:
 			List<Integer> positions = result.get(docId);
 			// Werktitel = erste Zeile des Werks
-			String title = work.getTitle();
+			String title = document.getTitle();
 			System.out.println(
 					String.format("'%s' %s-mal gefunden in Werk #%s (%s):", query, positions.size(), docId, title));
 			for (Integer pos : positions) {

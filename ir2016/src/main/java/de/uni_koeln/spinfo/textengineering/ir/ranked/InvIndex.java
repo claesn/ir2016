@@ -9,8 +9,8 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import de.uni_koeln.spinfo.textengineering.ir.basic.Corpus;
-import de.uni_koeln.spinfo.textengineering.ir.basic.Work;
+import de.uni_koeln.spinfo.textengineering.ir.model.Corpus;
+import de.uni_koeln.spinfo.textengineering.ir.model.IRDocument;
 
 /*
  * Für die Umsetzung des RankedRetrieval sind nur geringfügige Veränderungen nötig.
@@ -34,10 +34,10 @@ public class InvIndex implements RankedRetrieval {
 
 	private Map<String, SortedSet<Integer>> index(Corpus corpus) {
 		HashMap<String, SortedSet<Integer>> index = new HashMap<String, SortedSet<Integer>>();
-		List<Work> works = corpus.getWorks();
-		for (int i = 0; i < works.size(); i++) {
+		List<IRDocument> documents = corpus.getDocuments();
+		for (int i = 0; i < documents.size(); i++) {
 			// NEU: Preprocessor wird direkt im Werk eingesetzt
-			List<String> terms = works.get(i).getTerms();
+			List<String> terms = documents.get(i).getTerms();
 			// der Rest bleibt wie bisher ...
 			for (String t : terms) {
 				SortedSet<Integer> postings = index.get(t);
@@ -77,8 +77,8 @@ public class InvIndex implements RankedRetrieval {
 	 *  Alle Werke.
 	 */
 	@Override
-	public List<Work> getWorks() {
-		return corpus.getWorks();
+	public List<IRDocument> getDocuments() {
+		return corpus.getDocuments();
 	}
 
 	/*

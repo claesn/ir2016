@@ -10,7 +10,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.uni_koeln.spinfo.textengineering.ir.basic.Corpus;
+import de.uni_koeln.spinfo.textengineering.ir.model.Corpus;
+import de.uni_koeln.spinfo.textengineering.ir.model.shakespeare.ShakespeareCorpus;
 
 public class TestLucene {
 
@@ -22,7 +23,7 @@ public class TestLucene {
 	@BeforeClass
 	public static void setUp() throws Exception {
 		// A.1 Acquire content
-		corpus = new Corpus("pg100.txt", "1[56][0-9]{2}\n");
+		corpus = new ShakespeareCorpus("pg100.txt", "1[56][0-9]{2}\n");
 		/* Speicherort für den Lucene-Index: */
 		luceneDir = "index/";
 		/* Das Suchwort: */
@@ -41,11 +42,11 @@ public class TestLucene {
 		 */
 		Indexer indexer = new Indexer(luceneDir);
 		/* Wir prüfen zunächst, ob mit dem Korpus alles in Ordnung ist ... */
-		assertEquals("Corpus sollte genau 38 Dokumente enthalten", 38, corpus.getWorks().size());
+		assertEquals("Corpus sollte genau 38 Dokumente enthalten", 38, corpus.getDocuments().size());
 		/* ... und erstellen uns dann einen Index für unser Korpus: */
 		indexer.index(corpus);
 		/* Wenn alles ok ist, sollten nun genau die 38 Docs im Index sein: */
-		assertEquals("Index sollte der Korpusgröße entsprechen", corpus.getWorks().size(), indexer.getNumberOfDocs());
+		assertEquals("Index sollte der Korpusgröße entsprechen", corpus.getDocuments().size(), indexer.getNumberOfDocs());
 		indexer.close();
 	}
 

@@ -8,6 +8,10 @@ import java.util.Set;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.uni_koeln.spinfo.textengineering.ir.model.Corpus;
+import de.uni_koeln.spinfo.textengineering.ir.model.IRDocument;
+import de.uni_koeln.spinfo.textengineering.ir.model.shakespeare.ShakespeareCorpus;
+
 public class TestBasicIR {
 
 	private static Corpus corpus;
@@ -19,14 +23,14 @@ public class TestBasicIR {
 		// Korpus einlesen und in Werke unterteilen:
 		String filename = "pg100.txt";
 		String delimiter = "1[56][0-9]{2}\n";
-		corpus = new Corpus(filename, delimiter);
+		corpus = new ShakespeareCorpus(filename, delimiter);
 	}
 
 	@Test
 	public void testCorpus() throws Exception {
 		// Testen, ob Korpus korrekt angelegt wurde:
-		List<Work> works = corpus.getWorks();
-		assertTrue("Korpus sollte mehr als 1 Werk enthalten", works.size() > 1);
+		List<IRDocument> documents = corpus.getDocuments();
+		assertTrue("Korpus sollte mehr als 1 Werk enthalten", documents.size() > 1);
 	}
 
 	@Test
@@ -42,10 +46,10 @@ public class TestBasicIR {
 		Set<Integer> result = searcher.search(query);
 		assertTrue("Es sollte genau ein Treffer sein, es sind jedoch " + result.size(), result.size() == 1);
 		int id = result.iterator().next();
-		Work work = corpus.getWorks().get(id);
-		assertTrue("Titel sollte '" + query + "' enthalten", work.getTitle().contains(query));
+		IRDocument document = corpus.getDocuments().get(id);
+		assertTrue("Titel sollte '" + query + "' enthalten", document.getTitle().contains(query));
 		System.out.println(result);
-		System.out.println(work);
+		System.out.println(document);
 	}
 	
 	@Test

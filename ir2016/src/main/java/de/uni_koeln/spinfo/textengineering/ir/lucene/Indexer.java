@@ -15,8 +15,8 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.SimpleFSDirectory;
 
-import de.uni_koeln.spinfo.textengineering.ir.basic.Corpus;
-import de.uni_koeln.spinfo.textengineering.ir.basic.Work;
+import de.uni_koeln.spinfo.textengineering.ir.model.Corpus;
+import de.uni_koeln.spinfo.textengineering.ir.model.IRDocument;
 
 public class Indexer {
 
@@ -48,13 +48,13 @@ public class Indexer {
 		 * Schritt A.1 (acquire content) ist hier im Grunde bereits abgehakt. Dass wir hier einfach unser Corpus
 		 * übergeben ist dabei ein Spezialfall. Der allgemeinere Fall: Lesen von Textdateien aus einem Verzeichnis.
 		 */
-		List<Work> works = corpus.getWorks();
-		for (Work work : works) {
+		List<IRDocument> documents = corpus.getDocuments();
+		for (IRDocument document : documents) {
 			/*
 			 * Schritt A.2: build document (alternativ könnten wir die Lucene-Documents auch schon direkt in der
 			 * Corpus-Klasse erstellen, dann wären die Schritte A.1 und A.2 hier bereits abgehakt).
 			 */
-			Document doc = buildDocument(work);
+			Document doc = buildDocument(document);
 			/*
 			 * ... der Writer übernimmt dafür die Schritte A.3 und A.4 (analyze + index document)
 			 */
@@ -69,10 +69,13 @@ public class Indexer {
 	 * Daten kapseln. Strukturell ähnelt ein Field einer Map<Key, Value>, d.h. auf einen Key (ID) wird ein Value
 	 * (textuelle Daten) abgebildet.
 	 */
-	private Document buildDocument(Work work) {
+	private Document buildDocument(IRDocument irDoc) {
 
-		String title = work.getTitle();
-		String text = work.getText();
+		
+		// TODO: Use reflexion api to indicate fields
+		
+		String title = irDoc.getTitle();
+		String text = irDoc.getContent();
 
 		Document document = new Document();
 		document.add(new TextField("title", title, Store.YES));

@@ -5,12 +5,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import de.uni_koeln.spinfo.textengineering.ir.model.Corpus;
+import de.uni_koeln.spinfo.textengineering.ir.model.IRDocument;
+
 public class LinearSearch {
 
-	private List<Work> works;
+	private List<IRDocument> documents;
 
 	public LinearSearch(Corpus corpus) {
-		works = corpus.getWorks();
+		documents = corpus.getDocuments();
 	}
 
 	public Set<Integer> search(String query) {
@@ -21,12 +24,12 @@ public class LinearSearch {
 		List<String> queries = Arrays.asList(query.split("\\s+"));
 
 		for (String q : queries) {
-			for (Work work : works) {
-				String text = work.getText();
+			for (IRDocument doc : documents) {
+				String text = doc.getContent();
 				List<String> tokens = Arrays.asList(text.split("\\s+"));
 				for (String t : tokens) {
 					if (t.compareTo(q) == 0) {
-						result.add(works.indexOf(work));
+						result.add(documents.indexOf(doc));
 						break;
 					}
 				}

@@ -12,8 +12,9 @@ import java.util.SortedMap;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.uni_koeln.spinfo.textengineering.ir.basic.Corpus;
 import de.uni_koeln.spinfo.textengineering.ir.basic.Searcher;
+import de.uni_koeln.spinfo.textengineering.ir.model.Corpus;
+import de.uni_koeln.spinfo.textengineering.ir.model.shakespeare.ShakespeareCorpus;
 
 /**
  * @author spinfo
@@ -30,7 +31,7 @@ public class TestBooleanIR {
 		// Korpus einlesen und in Werke unterteilen:
 		String filename = "pg100.txt";
 		String delimiter = "1[56][0-9]{2}\n";
-		corpus = new Corpus(filename, delimiter);
+		corpus = new ShakespeareCorpus(filename, delimiter);
 	}
 
 	@Test
@@ -75,7 +76,7 @@ public class TestBooleanIR {
 		assertTrue("Ergebnis sollte nicht leer sein", result.size() > 0);
 		System.out.println("Ergebnis für " + query + ": " + result);
 		for (Integer id : result) {
-			System.out.println("id: " + id + " - " + corpus.getWorks().get(id));
+			System.out.println("id: " + id + " - " + corpus.getDocuments().get(id));
 		}
 	}
 
@@ -96,7 +97,7 @@ public class TestBooleanIR {
 		assertTrue("Ergebnis sollte nicht leer sein", result.size() > 0);
 		System.out.println("Ergebnis für " + query + ": " + result);
 		for (Integer id : result) {
-			System.out.println("id: " + id + " - " + corpus.getWorks().get(id));
+			System.out.println("id: " + id + " - " + corpus.getDocuments().get(id));
 		}
 
 		/*

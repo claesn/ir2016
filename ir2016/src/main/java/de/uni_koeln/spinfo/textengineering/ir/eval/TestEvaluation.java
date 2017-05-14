@@ -9,7 +9,8 @@ import java.util.Set;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.uni_koeln.spinfo.textengineering.ir.basic.Corpus;
+import de.uni_koeln.spinfo.textengineering.ir.model.Corpus;
+import de.uni_koeln.spinfo.textengineering.ir.model.shakespeare.ShakespeareCorpus;
 import de.uni_koeln.spinfo.textengineering.ir.ranked.InvIndex;
 import de.uni_koeln.spinfo.textengineering.ir.ranked.RankedRetrieval;
 import de.uni_koeln.spinfo.textengineering.ir.ranked.Ranker;
@@ -41,7 +42,7 @@ public class TestEvaluation {
 		 * Zunächst muss alles initialisiert werden:
 		 */
 		query = "king";
-		corpus = new Corpus("pg100.txt", "1[56][0-9]{2}\n");
+		corpus = new ShakespeareCorpus("pg100.txt", "1[56][0-9]{2}\n");
 		index = new InvIndex(corpus);
 		ranker = new Ranker(query, index);
 		/*
@@ -57,8 +58,8 @@ public class TestEvaluation {
 		System.out.println(ranked.size() + " gewichtete Ergebnisse für " + query);
 		print(ranked);
 		/*
-		 * ... die gegen einen Goldstandard evaluiert werden. Für die Übung beschränken wir uns auf eine Liste von
-		 * Dokumenten für eine query:
+		 * ... die gegen einen Goldstandard evaluiert werden. Für die Übung
+		 * beschränken wir uns auf eine Liste von Dokumenten für eine query:
 		 */
 		goldstandard = GoldStandard.create(index, query);
 		System.out.println("Goldstandard: " + goldstandard.size() + " relevante Dokumente für Query '" + query + "'");
@@ -102,9 +103,11 @@ public class TestEvaluation {
 	public void evalRankedMultiK() {
 		System.out.println("Multiresult, ranked:");
 		/*
-		 * In der Praxis ist es oft nützlich, eine Art Experimentaufbau zu definieren, in der Art: 'Probiere alle k von
-		 * 5 bis 15 und gib die Ergebnisse aus' (hier einfach in der Konsole, doch stattdessen könnte man das ganze auch
-		 * tabellarisch in eine Datei schreiben und so verschiedene Aufbauten in verschiedenen Files speichern etc.).
+		 * In der Praxis ist es oft nützlich, eine Art Experimentaufbau zu
+		 * definieren, in der Art: 'Probiere alle k von 5 bis 15 und gib die
+		 * Ergebnisse aus' (hier einfach in der Konsole, doch stattdessen könnte
+		 * man das ganze auch tabellarisch in eine Datei schreiben und so
+		 * verschiedene Aufbauten in verschiedenen Files speichern etc.).
 		 */
 		for (int i = K_START; i < K_END; i++) {
 			EvaluationResult evalRanked = evaluation.evaluate(ranked.subList(0, i));
@@ -115,7 +118,9 @@ public class TestEvaluation {
 	@Test
 	public void evalUnrankedMultiK() {
 		System.out.println("Multiresult, unranked:");
-		/* Für jedes k von kStart bis kEnd evaluieren und das Ergebnis ausgeben: */
+		/*
+		 * Für jedes k von kStart bis kEnd evaluieren und das Ergebnis ausgeben:
+		 */
 		for (int i = K_START; i < K_END; i++) {
 			EvaluationResult evalRanked = evaluation.evaluate(unranked.subList(0, i));
 			System.out.println("unranked, top: " + evalRanked + " k=" + i);
@@ -128,7 +133,7 @@ public class TestEvaluation {
 	private static void print(List<Integer> resultList) {
 		System.out.println("-------------------------------");
 		for (Integer docId : resultList) {
-			System.out.println(corpus.getWorks().get(docId));
+			System.out.println(corpus.getDocuments().get(docId));
 		}
 		System.out.println("-------------------------------");
 	}

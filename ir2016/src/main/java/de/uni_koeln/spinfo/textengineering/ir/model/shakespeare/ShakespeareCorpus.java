@@ -1,4 +1,4 @@
-package de.uni_koeln.spinfo.textengineering.ir.basic;
+package de.uni_koeln.spinfo.textengineering.ir.model.shakespeare;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,17 +7,20 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class Corpus {
+import de.uni_koeln.spinfo.textengineering.ir.model.Corpus;
+import de.uni_koeln.spinfo.textengineering.ir.model.IRDocument;
+
+public class ShakespeareCorpus implements Corpus {
 
 	private String text;
-	private List<Work> works;
+	private List<IRDocument> works;
 
 	/**
 	 * Einlesen einer Textdatei, die in ein Korpus von Dokumenten (hier: Werke) überführt wird.
 	 * @param location Der Pfad zur Datei, die eingelesen wird.
 	 * @param delimiter Regulärer Ausdruck, an dem der gelesene Text getrennt wird.
 	 */
-	public Corpus(String location, String delimiter) {
+	public ShakespeareCorpus(String location, String delimiter) {
 
 		StringBuilder sb = new StringBuilder();
 		try {
@@ -36,7 +39,7 @@ public class Corpus {
 		 * Wir splitten den eingelesenen Text in Teilstrings, diese werden selbst nochmals in Titel und Text gesplittet
 		 * und in einem Work-Objekt gekapselt. Dabei lassen wir das erste "Werk" weg (Lizenzvereinbarung etc.):
 		 */
-		works = new ArrayList<Work>();
+		works = new ArrayList<IRDocument>();
 		List<String> worksAsList = Arrays.asList(text.split(delimiter));
 		for (String work : worksAsList.subList(1, worksAsList.size())) {
 			/*
@@ -49,7 +52,7 @@ public class Corpus {
 		}
 	}
 
-	public List<Work> getWorks() {
+	public List<IRDocument> getDocuments() {
 		return works;
 	}
 

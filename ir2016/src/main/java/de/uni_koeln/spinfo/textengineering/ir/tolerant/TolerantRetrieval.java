@@ -7,8 +7,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import de.uni_koeln.spinfo.textengineering.ir.basic.Corpus;
 import de.uni_koeln.spinfo.textengineering.ir.boole.InvertedIndex;
+import de.uni_koeln.spinfo.textengineering.ir.model.Corpus;
 import de.uni_koeln.spinfo.textengineering.ir.preprocess.Preprocessor;
 
 public class TolerantRetrieval extends InvertedIndex {
