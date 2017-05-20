@@ -1,6 +1,7 @@
 package de.uni_koeln.spinfo.textengineering.ir.model.newspaper;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -71,8 +72,7 @@ public class NewsDocument implements IRDocument {
 	
 	@Override
 	public List<String> getTerms() {
-		// TODO: not implemented...
-		return null;
+		return new ArrayList<String>(tf.keySet());
 	}
 
 	@Override

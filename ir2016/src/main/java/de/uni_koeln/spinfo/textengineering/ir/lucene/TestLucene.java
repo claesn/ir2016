@@ -66,4 +66,30 @@ public class TestLucene {
 		searcher.close();
 	}
 
+	@Test
+	public void testIndex() throws ParseException, IOException {
+
+		Searcher searcher = new Searcher(luceneDir);
+		int noOfHits = 10;// Länge der Ergebnisliste
+
+		/* Suche nach einem String: */
+		searcher.search("heute", "text", noOfHits);
+		assertTrue("Das Suchergebnis sollte nicht leer sein.", searcher.totalHits() > 0);
+
+		/* Topic-Suche: */
+		searcher.search("sport", "topic", noOfHits);
+		assertTrue("Das Suchergebnis sollte nicht leer sein.", searcher.totalHits() > 0);
+
+		/* Suche nach Dokumenten aus einer bestimmten Quelle: */
+		searcher.search("spiegel", "source", noOfHits);
+		assertTrue("Das Suchergebnis sollte nicht leer sein.", searcher.totalHits() > 0);
+
+		/*
+		 * Source-Suche unter Verwendung der beim Indexieren extrahierten
+		 * root-URL:
+		 */
+		searcher.search("spiegel", "root", noOfHits);
+		assertTrue("Das Suchergebnis sollte nicht leer sein.", searcher.totalHits() > 0);
+	}
+
 }

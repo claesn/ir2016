@@ -26,7 +26,7 @@ public class InvIndex implements RankedRetrieval {
 	public InvIndex(Corpus corpus) {
 		long start = System.currentTimeMillis();
 		index = index(corpus);
-		System.out.println("Index erstellt, Dauer: "
+		System.out.println(corpus.getDocuments().size() + " Doks indexiert, Dauer: "
 				+ (System.currentTimeMillis() - start) + " ms.");
 		// NEU: Korpus für Zugriff auf Werke
 		this.corpus = corpus;
@@ -67,14 +67,14 @@ public class InvIndex implements RankedRetrieval {
 		Set<Integer> result = allPostings.get(0);
 		// ... mit allen weiteren:
 		for (Set<Integer> postings : allPostings) {
-//			 result.addAll(postings);// OR-Verknüpfung
+			// result.addAll(postings);// OR-Verknüpfung
 			result.retainAll(postings);// UND-Verknüpfung
 		}
 		return result;
 	}
 
 	/*
-	 *  Alle Werke.
+	 * Alle Werke.
 	 */
 	@Override
 	public List<IRDocument> getDocuments() {
@@ -82,7 +82,7 @@ public class InvIndex implements RankedRetrieval {
 	}
 
 	/*
-	 *  Alle Terme im Korpus.
+	 * Alle Terme im Korpus.
 	 */
 	@Override
 	public List<String> getTerms() {
@@ -90,7 +90,7 @@ public class InvIndex implements RankedRetrieval {
 	}
 
 	/*
-	 *  Die Dokumentenfrequenz zu einem Term:
+	 * Die Dokumentenfrequenz zu einem Term:
 	 */
 	@Override
 	public double getDf(String t) {

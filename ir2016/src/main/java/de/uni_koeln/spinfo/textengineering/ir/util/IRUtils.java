@@ -1,8 +1,13 @@
 package de.uni_koeln.spinfo.textengineering.ir.util;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import de.uni_koeln.spinfo.textengineering.ir.model.IRDocument;
 import de.uni_koeln.spinfo.textengineering.ir.preprocess.Preprocessor;
@@ -27,7 +32,7 @@ public final class IRUtils {
 		List<String> tokens = new Preprocessor().tokenize(content);
 		for (String token : tokens) {
 			Integer tf = termMap.get(token);
-			tf = tf == null ? 1 : ++tf; 
+			tf = tf == null ? 1 : ++tf;
 			termMap.put(token, tf);
 		}
 		return termMap;
@@ -49,6 +54,24 @@ public final class IRUtils {
 		List<Double> docVector = refDoc.computeVector(index);
 		double sim = VectorComparison.compare(queryVector, docVector);
 		return sim;
+	}
+
+	/**
+	 * Gibt zu einem geg. Dokument die ähnlichsten zurück.
+	 * @param doc
+	 * @param index
+	 * @param n Anzahl
+	 * @return Die ähnlichsten Dokumente zu doc
+	 */
+	public static List<IRDocument> getMostSimilar(IRDocument doc, RankedRetrieval index, int n) {
+
+		List<IRDocument> result = new ArrayList<IRDocument>();
+		
+		/*
+		 * TODO ermitteln der ähnlichsten Dokumente
+		 */
+		
+		return result;
 	}
 
 }
