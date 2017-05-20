@@ -86,14 +86,18 @@ public class Searcher {
 		for (int i = 0; i < topDocs.scoreDocs.length; i++) {
 			ScoreDoc scoreDoc = topDocs.scoreDocs[i];
 			Document doc = searcher.doc(scoreDoc.doc);
-//			System.out.println("Titel: " + doc.get("title"));
-			URI uri = null;
+			// System.out.println("Titel: " + doc.get("title"));
 			try {
-				uri = new URI(doc.get("source"));
+				/*
+				 * FIXME Wenn Felder nichts enthalten, kommt null zurück - hier
+				 * kaschiert durch leere Strings
+				 */
+				String topic = doc.get("topic") != null ? doc.get("topic") : "";
+				URI uri = doc.get("source") != null ? new URI(doc.get("source")) : new URI("");
+				rendered.add(new NewsDocument(topic, doc.get("title"), uri, doc.get("text")));
 			} catch (URISyntaxException e) {
 				e.printStackTrace();
 			}
-			rendered.add(new NewsDocument(doc.get("topic"), doc.get("title"), uri, doc.get("text")));
 		}
 		return rendered;
 	}
@@ -127,7 +131,8 @@ public class Searcher {
 	 * Anders als im Seminar wird das Index-Feld mit übergeben, um gezielt nach
 	 * 'topic' oder 'source' suchen zu können.
 	 */
-	public List<IRDocument> search(String searchPhrase, String field, int noOfHitsToDisplay) throws ParseException, IOException {
+	public List<IRDocument> search(String searchPhrase, String field, int noOfHitsToDisplay)
+			throws ParseException, IOException {
 
 		/* Die searchPhrase muss in ein Query-Objekt überführt werden: */
 		Query query;

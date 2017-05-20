@@ -65,13 +65,23 @@ public final class IRUtils {
 	 */
 	public static List<IRDocument> getMostSimilar(IRDocument doc, RankedRetrieval index, int n) {
 
+		SortedMap<Double, IRDocument> map = new TreeMap<Double, IRDocument>(Collections.reverseOrder());
+		List<IRDocument> documents = index.getDocuments();
+		for (IRDocument irDocument : documents) {
+			map.put(similarity(doc, irDocument, index), irDocument);
+		}
 		List<IRDocument> result = new ArrayList<IRDocument>();
-		
-		/*
-		 * TODO ermitteln der ähnlichsten Dokumente
-		 */
-		
+		Iterator<Double> iterator = map.keySet().iterator();
+		int count = 0;
+		while(iterator.hasNext()&&count<n){
+			Double sim = iterator.next();
+			result.add(map.get(sim));
+			System.out.println(sim + " - " + map.get(sim));
+			count++;
+		}
 		return result;
+		//alternativ:
+//		return new ArrayList<IRDocument>(map.values()).subList(0,n);
 	}
 
 }

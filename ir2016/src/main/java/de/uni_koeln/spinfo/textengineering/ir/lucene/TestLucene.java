@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.junit.Before;
@@ -11,6 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.uni_koeln.spinfo.textengineering.ir.model.Corpus;
+import de.uni_koeln.spinfo.textengineering.ir.model.IRDocument;
 import de.uni_koeln.spinfo.textengineering.ir.model.shakespeare.ShakespeareCorpus;
 
 public class TestLucene {
@@ -25,7 +27,7 @@ public class TestLucene {
 		// A.1 Acquire content
 		corpus = new ShakespeareCorpus("pg100.txt", "1[56][0-9]{2}\n");
 		/* Speicherort für den Lucene-Index: */
-		luceneDir = "index/";
+		luceneDir = "index-shakespeare/";
 		/* Das Suchwort: */
 		query = "brutus";
 	}
@@ -60,36 +62,13 @@ public class TestLucene {
 		/* Wir prüfen zunächst, ob mit dem Index alles in Ordnung ist ... */
 		assertEquals("Index sollte genau 38 Dokumente enthalten", 38, searcher.indexSize());
 		/* ... und schicken dann die Suche ab, wobei wir die maximale Trefferzahl mit angeben: */
-		searcher.search(query, 20);
-		/* Wenn alles ok ist, sollten nun genau die 38 Docs im Index sein: */
+		List<IRDocument> result = searcher.search(query, 5);
+		/* Wenn alles ok ist, sollten wir nun ein Ergebnis bekommen: */
 		assertTrue("Suchergebnis sollte nicht leer sein", searcher.totalHits() > 0);
+		for (IRDocument irDocument : result) {
+			System.out.println(irDocument);
+		}
 		searcher.close();
-	}
-
-	@Test
-	public void testIndex() throws ParseException, IOException {
-
-		Searcher searcher = new Searcher(luceneDir);
-		int noOfHits = 10;// Länge der Ergebnisliste
-
-		/* Suche nach einem String: */
-		searcher.search("heute", "text", noOfHits);
-		assertTrue("Das Suchergebnis sollte nicht leer sein.", searcher.totalHits() > 0);
-
-		/* Topic-Suche: */
-		searcher.search("sport", "topic", noOfHits);
-		assertTrue("Das Suchergebnis sollte nicht leer sein.", searcher.totalHits() > 0);
-
-		/* Suche nach Dokumenten aus einer bestimmten Quelle: */
-		searcher.search("spiegel", "source", noOfHits);
-		assertTrue("Das Suchergebnis sollte nicht leer sein.", searcher.totalHits() > 0);
-
-		/*
-		 * Source-Suche unter Verwendung der beim Indexieren extrahierten
-		 * root-URL:
-		 */
-		searcher.search("spiegel", "root", noOfHits);
-		assertTrue("Das Suchergebnis sollte nicht leer sein.", searcher.totalHits() > 0);
 	}
 
 }
